@@ -237,7 +237,7 @@ export default function AdminPage() {
                 ...(activeTab === tab.id ? { background: "linear-gradient(135deg, #6c5ce7, #e91e8c)" } : {}),
               }}
             >
-              {tab.icon} <span className="hidden sm:inline">{tab.label}</span>
+              <span className="hidden sm:inline">{tab.icon} {tab.label}</span>
               <span className="sm:hidden">{tab.icon}</span>
             </button>
           ))}
