@@ -11,26 +11,28 @@ async function kvGet(): Promise<MenuData | null> {
   const res = await fetch(`${url}/get/${MENU_KEY}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
+  if (!res.ok) return null;
   const json = await res.json();
-  return json.result ?? null;
+  if (!json.result) return null;
+  return typeof json.result === "string" ? JSON.parse(json.result) : json.result;
 }
 
 async function kvSet(data: MenuData): Promise<void> {
   const url = process.env.KV_REST_API_URL;
   const token = process.env.KV_REST_API_TOKEN;
-  if (!url || !token) throw new Error("Missing KV env vars");
+  if (!url || !token) throw new Error("Variables KV no configuradas");
 
   const res = await fetch(`${url}/set/${MENU_KEY}`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
+      "Content-Type": "text/plain",
     },
     body: JSON.stringify(data),
   });
   if (!res.ok) {
     const err = await res.text();
-    throw new Error(`KV set failed: ${res.status} ${err}`);
+    throw new Error(`KV set failed (${res.status}): ${err}`);
   }
 }
 
@@ -38,7 +40,9 @@ export async function GET() {
   try {
     const data = await kvGet();
     return NextResponse.json(data || menuPorDefecto);
-  } catch {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error("GET error:", message);
     return NextResponse.json(menuPorDefecto);
   }
 }
@@ -53,7 +57,7 @@ export async function PUT(request: Request) {
 
     if (!url || !token) {
       return NextResponse.json(
-        { error: "Variables KV no configuradas" },
+        { error: "Variables KV_REST_API_URL y KV_REST_API_TOKEN no configuradas" },
         { status: 500 }
       );
     }
@@ -62,6 +66,7 @@ export async function PUT(request: Request) {
     return NextResponse.json({ success: true });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
+    console.error("PUT error:", message);
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
