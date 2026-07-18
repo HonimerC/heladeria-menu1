@@ -172,7 +172,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="border-t px-5 py-10" style={{ borderColor: "rgba(74,55,40,0.08)", background: "var(--bg-card)" }}>
-        <div className="max-w-md mx-auto space-y-6">
+        <div className="max-w-md mx-auto space-y-6 text-center">
           <div>
             <h3 className="text-xl font-bold mb-1" style={{ fontFamily: "var(--font-heading)", color: "var(--text)" }}>HeladeríaMenu1</h3>
             <p className="text-xs" style={{ color: "var(--text-light)" }}>Heladería artesanal con sabores que alegran el día.</p>
@@ -180,7 +180,7 @@ export default function Home() {
 
           <div>
             <h4 className="text-sm font-bold mb-2" style={{ fontFamily: "var(--font-heading)", color: "var(--text)" }}>Horario</h4>
-            <div className="space-y-1">
+            <div className="space-y-1 inline-block text-left">
               {menuData.horarios?.filter((h) => h.abierto).map((h, i, arr) => {
                 const mismaHora = i > 0 && arr[i - 1].horaApertura === h.horaApertura && arr[i - 1].horaCierre === h.horaCierre;
                 if (mismaHora) return null;
@@ -204,7 +204,7 @@ export default function Home() {
 
           <div>
             <h4 className="text-sm font-bold mb-2" style={{ fontFamily: "var(--font-heading)", color: "var(--text)" }}>Contacto</h4>
-            <div className="space-y-1.5">
+            <div className="space-y-1.5 inline-block text-left">
               <div className="flex items-center gap-2 text-xs" style={{ color: "var(--text-light)" }}>
                 <span className="w-3.5 h-3.5 flex-shrink-0 opacity-40">📞</span>
                 <span>{menuData.contacto?.telefono}</span>
@@ -216,7 +216,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="pt-4 border-t text-center" style={{ borderColor: "rgba(74,55,40,0.08)" }}>
+          <div className="pt-4 border-t" style={{ borderColor: "rgba(74,55,40,0.08)" }}>
             <p className="text-[10px]" style={{ color: "var(--text-light)" }}>© 2026 HeladeríaMenu1. Hecho con mucho amor y helado.</p>
           </div>
         </div>
