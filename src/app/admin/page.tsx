@@ -46,7 +46,7 @@ export default function AdminPage() {
 
   const agregarSabor = () => {
     playClick();
-    const nuevo: Sabor = { id: Date.now().toString(), nombre: "Nuevo Sabor", descripcion: "", disponible: true, color: "#f9a8a8", imagen: "" };
+    const nuevo: Sabor = { id: Date.now().toString(), nombre: "Nuevo Sabor", descripcion: "", detalles: "", disponible: true, color: "#f9a8a8", imagen: "" };
     setMenuData((prev) => ({ ...prev, sabores: [...prev.sabores, nuevo] }));
   };
 
@@ -61,12 +61,12 @@ export default function AdminPage() {
   const eliminarTamano = (id: string) => { playClick(); setMenuData((prev) => ({ ...prev, tamanoVasos: prev.tamanoVasos.filter((t) => t.id !== id) })); };
 
   const toggleCombo = (id: string) => { const combo = menuData.combos.find((c) => c.id === id); playToggle(!combo?.disponible); setMenuData((prev) => ({ ...prev, combos: prev.combos.map((c) => (c.id === id ? { ...c, disponible: !c.disponible } : c)) })); };
-  const agregarCombo = () => { playClick(); const nuevo: Combo = { id: Date.now().toString(), nombre: "Nuevo Combo", descripcion: "Descripción", precio: 0, disponible: true }; setMenuData((prev) => ({ ...prev, combos: [...prev.combos, nuevo] })); };
+  const agregarCombo = () => { playClick(); const nuevo: Combo = { id: Date.now().toString(), nombre: "Nuevo Combo", descripcion: "Descripción", detalles: "", precio: 0, disponible: true, imagen: "" }; setMenuData((prev) => ({ ...prev, combos: [...prev.combos, nuevo] })); };
   const editarCombo = (id: string, campo: keyof Combo, valor: string | number | boolean) => setMenuData((prev) => ({ ...prev, combos: prev.combos.map((c) => (c.id === id ? { ...c, [campo]: valor } : c)) }));
   const eliminarCombo = (id: string) => { playClick(); setMenuData((prev) => ({ ...prev, combos: prev.combos.filter((c) => c.id !== id) })); };
 
   const toggleFresas = (id: string) => { const fresa = menuData.fresasConCrema.find((f) => f.id === id); playToggle(!fresa?.disponible); setMenuData((prev) => ({ ...prev, fresasConCrema: prev.fresasConCrema.map((f) => (f.id === id ? { ...f, disponible: !f.disponible } : f)) })); };
-  const agregarFresas = () => { playClick(); const nuevo: FresasConCrema = { id: Date.now().toString(), nombre: "Nueva Fresas con Crema", descripcion: "Descripción", precio: 0, disponible: true }; setMenuData((prev) => ({ ...prev, fresasConCrema: [...prev.fresasConCrema, nuevo] })); };
+  const agregarFresas = () => { playClick(); const nuevo: FresasConCrema = { id: Date.now().toString(), nombre: "Nueva Fresas con Crema", descripcion: "Descripción", detalles: "", precio: 0, disponible: true, imagen: "" }; setMenuData((prev) => ({ ...prev, fresasConCrema: [...prev.fresasConCrema, nuevo] })); };
   const editarFresas = (id: string, campo: keyof FresasConCrema, valor: string | number | boolean) => setMenuData((prev) => ({ ...prev, fresasConCrema: prev.fresasConCrema.map((f) => (f.id === id ? { ...f, [campo]: valor } : f)) }));
   const eliminarFresas = (id: string) => { playClick(); setMenuData((prev) => ({ ...prev, fresasConCrema: prev.fresasConCrema.filter((f) => f.id !== id) })); };
 
@@ -160,6 +160,7 @@ export default function AdminPage() {
                     <button onClick={() => eliminarSabor(sabor.id)} className="w-9 h-9 rounded-full bg-red-100 hover:bg-red-200 text-red-500 text-xs flex-shrink-0 flex items-center justify-center transition-colors">🗑</button>
                   </div>
                   <input type="text" value={sabor.descripcion} onChange={(e) => editarSabor(sabor.id, "descripcion", e.target.value)} className="w-full px-3 py-1.5 border rounded-full text-xs outline-none" style={{ borderColor: "rgba(74,55,40,0.1)", color: "var(--text-light)" }} placeholder="Descripción del sabor" />
+                  <input type="text" value={sabor.detalles} onChange={(e) => editarSabor(sabor.id, "detalles", e.target.value)} className="w-full px-3 py-1.5 border rounded-full text-xs outline-none mt-2" style={{ borderColor: "rgba(74,55,40,0.1)", color: "var(--text-light)" }} placeholder="Detalles adicionales (para vista previa)" />
                   <input type="text" value={sabor.imagen} onChange={(e) => editarSabor(sabor.id, "imagen", e.target.value)} className="w-full px-3 py-1.5 border rounded-full text-xs outline-none mt-2" style={{ borderColor: "rgba(74,55,40,0.1)", color: "var(--text-light)" }} placeholder="URL de imagen (opcional)" />
                 </div>
               ))}
@@ -211,6 +212,8 @@ export default function AdminPage() {
                     <button onClick={() => toggleCombo(combo.id)} className="w-8 h-8 rounded-full font-medium text-xs flex items-center justify-center transition-colors" style={{ background: combo.disponible ? "var(--accent)" : "rgba(74,55,40,0.15)", color: combo.disponible ? "white" : "var(--text-light)" }}>{combo.disponible ? "✓" : "✗"}</button>
                     <button onClick={() => eliminarCombo(combo.id)} className="w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 text-red-500 text-xs flex items-center justify-center transition-colors">🗑</button>
                   </div>
+                  <input type="text" value={combo.detalles} onChange={(e) => editarCombo(combo.id, "detalles", e.target.value)} className="w-full px-3 py-1.5 border rounded-full text-xs outline-none mt-2" style={{ borderColor: "rgba(74,55,40,0.1)", color: "var(--text-light)" }} placeholder="Detalles adicionales (para vista previa)" />
+                  <input type="text" value={combo.imagen} onChange={(e) => editarCombo(combo.id, "imagen", e.target.value)} className="w-full px-3 py-1.5 border rounded-full text-xs outline-none mt-2" style={{ borderColor: "rgba(74,55,40,0.1)", color: "var(--text-light)" }} placeholder="URL de imagen (opcional)" />
                 </div>
               ))}
             </div>
@@ -239,6 +242,8 @@ export default function AdminPage() {
                     <button onClick={() => toggleFresas(fresas.id)} className="w-8 h-8 rounded-full font-medium text-xs flex items-center justify-center transition-colors" style={{ background: fresas.disponible ? "var(--accent)" : "rgba(74,55,40,0.15)", color: fresas.disponible ? "white" : "var(--text-light)" }}>{fresas.disponible ? "✓" : "✗"}</button>
                     <button onClick={() => eliminarFresas(fresas.id)} className="w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 text-red-500 text-xs flex items-center justify-center transition-colors">🗑</button>
                   </div>
+                  <input type="text" value={fresas.detalles} onChange={(e) => editarFresas(fresas.id, "detalles", e.target.value)} className="w-full px-3 py-1.5 border rounded-full text-xs outline-none mt-2" style={{ borderColor: "rgba(74,55,40,0.1)", color: "var(--text-light)" }} placeholder="Detalles adicionales (para vista previa)" />
+                  <input type="text" value={fresas.imagen} onChange={(e) => editarFresas(fresas.id, "imagen", e.target.value)} className="w-full px-3 py-1.5 border rounded-full text-xs outline-none mt-2" style={{ borderColor: "rgba(74,55,40,0.1)", color: "var(--text-light)" }} placeholder="URL de imagen (opcional)" />
                 </div>
               ))}
             </div>

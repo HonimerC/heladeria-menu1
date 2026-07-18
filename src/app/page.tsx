@@ -1,14 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MenuData, menuPorDefecto } from "@/lib/data";
+import { MenuData, Sabor, Combo, FresasConCrema, menuPorDefecto } from "@/lib/data";
 import { playWelcome, playClick } from "@/lib/sounds";
+import PreviewModal from "./components/PreviewModal";
+
+type PreviewItem = {
+  imagen: string;
+  color: string;
+  nombre: string;
+  descripcion: string;
+  detalles: string;
+  precio?: number;
+};
 
 export default function Home() {
   const [menuData, setMenuData] = useState<MenuData>(menuPorDefecto);
   const [cargando, setCargando] = useState(true);
   const [sonidoActivo, setSonidoActivo] = useState(false);
   const [seccion, setSeccion] = useState<"menu" | "precios">("menu");
+  const [preview, setPreview] = useState<PreviewItem | null>(null);
 
   useEffect(() => {
     fetch("/api/menu")
@@ -18,6 +29,10 @@ export default function Home() {
   }, []);
 
   const handleSonido = () => { if (!sonidoActivo) { playWelcome(); setSonidoActivo(true); } };
+
+  const openSabor = (s: Sabor) => { playClick(); setPreview({ imagen: s.imagen, color: s.color, nombre: s.nombre, descripcion: s.descripcion, detalles: s.detalles }); };
+  const openFresas = (f: FresasConCrema) => { playClick(); setPreview({ imagen: f.imagen, color: "#f5c7a9", nombre: f.nombre, descripcion: f.descripcion, detalles: f.detalles, precio: f.precio }); };
+  const openCombo = (c: Combo) => { playClick(); setPreview({ imagen: c.imagen, color: "#b8ddd0", nombre: c.nombre, descripcion: c.descripcion, detalles: c.detalles, precio: c.precio }); };
 
   const saboresDisp = menuData.sabores.filter((s) => s.disponible);
   const saboresAgot = menuData.sabores.filter((s) => !s.disponible);
@@ -81,7 +96,7 @@ export default function Home() {
               <p className="section-subtitle">Elegí tu favorito o combiná varios</p>
               <div className="grid grid-cols-3 gap-2.5">
                 {saboresDisp.map((sabor) => (
-                  <div key={sabor.id} className="sabor-card">
+                  <button key={sabor.id} className="sabor-card cursor-pointer active:scale-95 transition-transform" onClick={() => openSabor(sabor)}>
                     {sabor.imagen ? (
                       <img src={sabor.imagen} alt={sabor.nombre} className="w-14 h-14 rounded-full mx-auto mb-2 object-cover border-2 border-white shadow" />
                     ) : (
@@ -91,7 +106,7 @@ export default function Home() {
                     )}
                     <p className="text-xs font-semibold truncate" style={{ color: "var(--text)", fontFamily: "var(--font-heading)" }}>{sabor.nombre}</p>
                     <p className="text-[9px] mt-0.5 leading-tight line-clamp-2" style={{ color: "var(--text-light)" }}>{sabor.descripcion}</p>
-                  </div>
+                  </button>
                 ))}
               </div>
               {saboresAgot.length > 0 && (
@@ -107,14 +122,14 @@ export default function Home() {
               <p className="section-subtitle">Fresas frescas con crema batida</p>
               <div className="space-y-2">
                 {menuData.fresasConCrema.filter((f) => f.disponible).map((fresas) => (
-                  <div key={fresas.id} className="extra-row">
+                  <button key={fresas.id} className="extra-row w-full cursor-pointer active:scale-[0.98] transition-transform text-left" onClick={() => openFresas(fresas)}>
                     <div className="w-10 h-10 rounded-full flex items-center justify-center text-lg flex-shrink-0" style={{ background: "var(--peach-light)" }}>🍓</div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold" style={{ color: "var(--text)" }}>{fresas.nombre}</p>
                       <p className="text-[10px]" style={{ color: "var(--text-light)" }}>{fresas.descripcion}</p>
                     </div>
                     <span className="price-badge">Bs {fresas.precio.toFixed(2)}</span>
-                  </div>
+                  </button>
                 ))}
               </div>
             </section>
@@ -125,7 +140,7 @@ export default function Home() {
               <p className="section-subtitle">Aprovechá nuestras promociones</p>
               <div className="space-y-3">
                 {menuData.combos.filter((c) => c.disponible).map((combo) => (
-                  <div key={combo.id} className="sabor-card !p-4 text-left">
+                  <button key={combo.id} className="sabor-card !p-4 text-left w-full cursor-pointer active:scale-[0.98] transition-transform" onClick={() => openCombo(combo)}>
                     <div className="flex justify-between items-center">
                       <div className="flex-1 min-w-0">
                         <p className="text-base font-bold" style={{ color: "var(--text)", fontFamily: "var(--font-heading)" }}>{combo.nombre}</p>
@@ -133,7 +148,7 @@ export default function Home() {
                       </div>
                       <span className="price-badge ml-3">Bs {combo.precio.toFixed(2)}</span>
                     </div>
-                  </div>
+                  </button>
                 ))}
               </div>
             </section>
@@ -221,6 +236,19 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Modal Preview */}
+      {preview && (
+        <PreviewModal
+          imagen={preview.imagen}
+          color={preview.color}
+          nombre={preview.nombre}
+          descripcion={preview.descripcion}
+          detalles={preview.detalles}
+          precio={preview.precio}
+          onClose={() => setPreview(null)}
+        />
+      )}
     </div>
   );
 }
