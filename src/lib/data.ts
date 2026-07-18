@@ -1,8 +1,10 @@
 export interface Sabor {
   id: string;
   nombre: string;
+  descripcion: string;
   disponible: boolean;
   color: string;
+  imagen: string;
 }
 
 export interface Tamano {
@@ -50,18 +52,18 @@ export interface MenuData {
 }
 
 export const saboresPorDefecto: Sabor[] = [
-  { id: "1", nombre: "Fresasamva", disponible: true, color: "#FF6B6B" },
-  { id: "2", nombre: "Arequipe", disponible: true, color: "#D2691E" },
-  { id: "3", nombre: "Choco Mani", disponible: true, color: "#8B4513" },
-  { id: "4", nombre: "Fresa Oreo", disponible: true, color: "#FF4500" },
-  { id: "5", nombre: "Galleta Maria", disponible: true, color: "#DEB887" },
-  { id: "6", nombre: "Choco Oreo", disponible: true, color: "#2F1B14" },
-  { id: "7", nombre: "Choco Crunch", disponible: true, color: "#6B3A2A" },
-  { id: "8", nombre: "Piel de Limon", disponible: true, color: "#FFD700" },
-  { id: "9", nombre: "Guanabana", disponible: true, color: "#F5F5DC" },
-  { id: "10", nombre: "Pie de Parchita", disponible: true, color: "#FF8C00" },
-  { id: "11", nombre: "Mante Oreo", disponible: true, color: "#4A3728" },
-  { id: "12", nombre: "Torta Suiza", disponible: true, color: "#D2B48C" },
+  { id: "1", nombre: "Fresasamva", descripcion: "Fresa natural con un toque cremoso", disponible: true, color: "#f9a8a8", imagen: "" },
+  { id: "2", nombre: "Arequipe", descripcion: "Dulce de leche artesanal", disponible: true, color: "#d4a574", imagen: "" },
+  { id: "3", nombre: "Choco Maní", descripcion: "Chocolate con maní crocante", disponible: true, color: "#8B6F47", imagen: "" },
+  { id: "4", nombre: "Fresa Oreo", descripcion: "Fresa con galleta Oreo triturada", disponible: true, color: "#e88d8d", imagen: "" },
+  { id: "5", nombre: "Galleta María", descripcion: "Base de galleta María con crema", disponible: true, color: "#dcc9a3", imagen: "" },
+  { id: "6", nombre: "Choco Oreo", descripcion: "Chocolate intenso con Oreo", disponible: true, color: "#5c4033", imagen: "" },
+  { id: "7", nombre: "Choco Crunch", descripcion: "Chocolate con trozos crocantes", disponible: true, color: "#7a5c3e", imagen: "" },
+  { id: "8", nombre: "Piel de Limón", descripcion: "Limón fresco con ralladura natural", disponible: true, color: "#f0e68c", imagen: "" },
+  { id: "9", nombre: "Guanábana", descripcion: "Guanábana tropical cremosa", disponible: true, color: "#f5f0dc", imagen: "" },
+  { id: "10", nombre: "Pie de Parchita", descripcion: "Maracuyá con base de galleta", disponible: true, color: "#f4a460", imagen: "" },
+  { id: "11", nombre: "Mante Oreo", descripcion: "Mantequilla de maní con Oreo", disponible: true, color: "#6b4e3d", imagen: "" },
+  { id: "12", nombre: "Torta Suiza", descripcion: "Chocolate suizo con trozos de torta", disponible: true, color: "#c4a882", imagen: "" },
 ];
 
 export const tamanoPorDefecto: Tamano[] = [
@@ -76,58 +78,16 @@ export const tamanoPorDefecto: Tamano[] = [
 ];
 
 export const combosPorDefecto: Combo[] = [
-  {
-    id: "1",
-    nombre: "Combo Familiar",
-    descripcion: "4 conos grandes + 2 vasos medianos",
-    precio: 15.0,
-    disponible: true,
-  },
-  {
-    id: "2",
-    nombre: "Combo Pareja",
-    descripcion: "2 vasos medianos + topping gratis",
-    precio: 7.0,
-    disponible: true,
-  },
-  {
-    id: "3",
-    nombre: "Combo Kids",
-    descripcion: "1 cono pequeño + 1 vaso pequeño",
-    precio: 4.0,
-    disponible: true,
-  },
+  { id: "1", nombre: "Combo Familiar", descripcion: "4 conos grandes + 2 vasos medianos", precio: 15.0, disponible: true },
+  { id: "2", nombre: "Combo Pareja", descripcion: "2 vasos medianos + topping gratis", precio: 7.0, disponible: true },
+  { id: "3", nombre: "Combo Kids", descripcion: "1 cono pequeño + 1 vaso pequeño", precio: 4.0, disponible: true },
 ];
 
 export const fresasConCremaPorDefecto: FresasConCrema[] = [
-  {
-    id: "1",
-    nombre: "Fresas con Crema Vaso Pequeño",
-    descripcion: "Porción individual con fresas frescas y crema batida",
-    precio: 3.0,
-    disponible: true,
-  },
-  {
-    id: "2",
-    nombre: "Fresas con Crema Vaso Mediano",
-    descripcion: "Porción mediana con fresas frescas y crema batida",
-    precio: 5.0,
-    disponible: true,
-  },
-  {
-    id: "3",
-    nombre: "Fresas con Crema Vaso Grande",
-    descripcion: "Porción grande con fresas frescas y crema batida",
-    precio: 7.0,
-    disponible: true,
-  },
-  {
-    id: "4",
-    nombre: "Fresas con Crema Taza",
-    descripcion: "Porción en taza con fresas frescas y crema batida",
-    precio: 4.0,
-    disponible: true,
-  },
+  { id: "1", nombre: "Vaso Pequeño", descripcion: "Porción individual con fresas frescas", precio: 3.0, disponible: true },
+  { id: "2", nombre: "Vaso Mediano", descripcion: "Porción mediana generosa", precio: 5.0, disponible: true },
+  { id: "3", nombre: "Vaso Grande", descripcion: "Para compartir con amigos", precio: 7.0, disponible: true },
+  { id: "4", nombre: "Taza", descripcion: "Presentación especial en taza", precio: 4.0, disponible: true },
 ];
 
 export const horariosPorDefecto: Horario[] = [
