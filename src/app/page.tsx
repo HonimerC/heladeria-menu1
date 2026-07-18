@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { MenuData, menuPorDefecto } from "@/lib/data";
-import { playWelcome } from "@/lib/sounds";
+import { playWelcome, playClick } from "@/lib/sounds";
 
 export default function Home() {
   const [menuData, setMenuData] = useState<MenuData>(menuPorDefecto);
@@ -37,13 +37,13 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen grain" style={{ background: "var(--bg)" }}>
+    <div className="min-h-screen grain overflow-x-hidden" style={{ background: "var(--bg)" }}>
       {/* Hero */}
       <section className="gradient-hero px-5 pt-10 pb-12 text-center" onClick={handleSonido}>
         <p className="text-xs font-semibold tracking-[0.2em] uppercase mb-3" style={{ color: "var(--accent)" }}>
           Helados Artesanales
         </p>
-        <h1 className="text-5xl font-bold mb-3" style={{ fontFamily: "var(--font-heading)", color: "var(--text)" }}>
+        <h1 className="text-4xl sm:text-5xl font-bold mb-3 leading-tight" style={{ fontFamily: "var(--font-heading)", color: "var(--text)" }}>
           HeladeríaMenu1
         </h1>
         <p className="text-sm leading-relaxed max-w-xs mx-auto mb-6" style={{ color: "var(--text-light)" }}>
@@ -51,14 +51,14 @@ export default function Home() {
         </p>
         <div className="flex justify-center gap-3">
           <button
-            onClick={() => setSeccion("menu")}
+            onClick={(e) => { e.stopPropagation(); playClick(); setSeccion("menu"); }}
             className="px-6 py-2.5 rounded-full text-sm font-semibold text-white transition-all"
             style={{ background: "var(--accent)", fontFamily: "var(--font-body)" }}
           >
             Ver menú
           </button>
           <button
-            onClick={() => setSeccion("precios")}
+            onClick={(e) => { e.stopPropagation(); playClick(); setSeccion("precios"); }}
             className="px-6 py-2.5 rounded-full text-sm font-semibold border-2 transition-all"
             style={{ borderColor: "var(--accent)", color: "var(--accent)", background: "transparent", fontFamily: "var(--font-body)" }}
           >
@@ -72,14 +72,14 @@ export default function Home() {
         )}
       </section>
 
-      <main className="max-w-md mx-auto px-5 pb-10">
+      <main className="max-w-md mx-auto px-5 pb-10 overflow-hidden">
         {seccion === "menu" ? (
           <div className="space-y-10">
             {/* Sabores */}
             <section className="pt-8">
               <h2 className="section-title text-3xl">Nuestros Sabores</h2>
               <p className="section-subtitle">Elegí tu favorito o combiná varios</p>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-3 gap-2.5">
                 {saboresDisp.map((sabor) => (
                   <div key={sabor.id} className="sabor-card">
                     {sabor.imagen ? (
@@ -89,8 +89,8 @@ export default function Home() {
                         🍨
                       </div>
                     )}
-                    <p className="text-sm font-semibold" style={{ color: "var(--text)", fontFamily: "var(--font-heading)" }}>{sabor.nombre}</p>
-                    <p className="text-[10px] mt-0.5 leading-tight" style={{ color: "var(--text-light)" }}>{sabor.descripcion}</p>
+                    <p className="text-xs font-semibold truncate" style={{ color: "var(--text)", fontFamily: "var(--font-heading)" }}>{sabor.nombre}</p>
+                    <p className="text-[9px] mt-0.5 leading-tight line-clamp-2" style={{ color: "var(--text-light)" }}>{sabor.descripcion}</p>
                   </div>
                 ))}
               </div>
@@ -171,7 +171,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t px-5 py-10" style={{ borderColor: "rgba(74,55,40,0.08)", background: "var(--bg-card)" }}>
+      <footer className="border-t px-5 py-10" style={{ borderColor: "rgba(74,55,40,0.08)", background: "var(--bg-card)", maxWidth: "100%" }}>
         <div className="max-w-md mx-auto space-y-6 text-center">
           <div>
             <h3 className="text-xl font-bold mb-1" style={{ fontFamily: "var(--font-heading)", color: "var(--text)" }}>HeladeríaMenu1</h3>
